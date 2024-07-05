@@ -59,12 +59,98 @@ namespace DevSeek.Controllers
             if (ModelState.IsValid)
             {
                 question.CreatedAt = DateTime.Now;
-                question.UserId = User.Identity.Name;
-                _context.Add(question);
+                question.UserId = User.Identity.Name; //duzeltilecekkkk string-obje problemi falannnj
+                _context.Add(question); //comment olmali
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(question);
         }
+
+        //GET Questions/Edit/#
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var question = await _context.Questions.FindAsync(id, id);
+            if (question == null)
+            {
+                return NotFound();
+            }
+            return View(question);
+        }
+
+        //POST Questions/Edit/#
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id, Title, BOdy")] Question question)
+        {
+            if (id != question.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(question);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!QuestionExist(question.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(question);
+        }
+
+        //GET Question/Delete/#
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var question = await _context.Questions
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (question == null)
+            {
+                return NotFound();
+            }
+
+            return View(question);
+        }
+
+        //GET Questions/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var question = await _context.Questions.FindAsync(id);
+            _context.Questions.Remove(question);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        //question check if exist        
+        private bool QuestionExist(int id)
+        {
+            return _context.Questions.Any(e => e.Id == id);
+        }
+
     }
 }
