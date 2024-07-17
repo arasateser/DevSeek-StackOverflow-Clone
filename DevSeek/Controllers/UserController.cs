@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using DevSeek.Models;
-using Microsoft.AspNetCore.Authorization; // Include the namespace for LoginViewModel
+using DevSeek.Models; // Include the namespace for LoginViewModel
 namespace DevSeek.Controllers
 {
-    [Authorize]
     public class UsersController : Controller
     {
         // In-memory user storage
@@ -48,7 +46,7 @@ namespace DevSeek.Controllers
 
         // POST: /Users/Login
         [HttpPost]
-        public IActionResult Login(LoginViewModel login)
+        public IActionResult Login(LoginView login)
         {
             // Check if the username and password match
             var user = _users.FirstOrDefault(u => u.UserName == login.UserName && u.Password == login.Password);
