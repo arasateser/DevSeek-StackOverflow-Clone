@@ -4,11 +4,11 @@ namespace DevSeek.Models
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public string Body { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public ApplicationUser UserId { get; set; }
-        public ICollection<Comment> Comments { get; set; }
-        public ICollection<Vote> Votes { get; set; }
-        public ICollection<QuestionTag> QuestionTags { get; set; }
+        public string Content { get; set; }
+        public User Author { get; set; }
+        public List<Comment> Comments { get; set; }
+        public List<Vote> Votes { get; set; }
+        public List<Tag> Tags { get; set; }
     }
+
 }
