@@ -4,9 +4,8 @@ namespace DevSeek.Models
     {
         public int Id { get; set; }
         public bool IsUpvote { get; set; }
-        public string UserId { get; set; }
-        public ApplicationUser User { get; set; }
-        public Question QuestionId { get; set; }
+        public User User { get; set; }
+        public Question Question { get; set; }
         public Comment Comment { get; set; }
     }
 }

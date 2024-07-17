@@ -10,5 +10,4 @@ namespace DevSeek.Models
         public List<Vote> Votes { get; set; }
         public List<Tag> Tags { get; set; }
     }
-
 }

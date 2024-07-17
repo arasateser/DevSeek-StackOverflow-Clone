@@ -9,4 +9,5 @@ namespace DevSeek.Models
         public List<Vote> Votes { get; set; }
     }
 
+
 }
