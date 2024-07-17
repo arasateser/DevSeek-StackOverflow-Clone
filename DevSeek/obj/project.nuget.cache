@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "yXRvUgX3z9U=",
+  "dgSpecHash": "jypRTfDqRUk=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Aras\\Desktop\\dotnet\\SOClone\\DevSeek\\DevSeek.csproj",
+  "projectFilePath": "C:\\Users\\Aras\\Desktop\\Java\\DevSeek-StackOverflow-Clone\\DevSeek\\DevSeek.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Aras\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Aras\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

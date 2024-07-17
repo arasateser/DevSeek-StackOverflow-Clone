@@ -4,6 +4,7 @@ namespace DevSeek.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<QuestionTag> QuestionTags { get; set; }
+        public List<Question> Questions { get; set; }
     }
+
 }

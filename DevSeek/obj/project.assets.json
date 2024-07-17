@@ -4522,11 +4522,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Aras\\Desktop\\dotnet\\SOClone\\DevSeek\\DevSeek.csproj",
+      "projectUniqueName": "C:\\Users\\Aras\\Desktop\\Java\\DevSeek-StackOverflow-Clone\\DevSeek\\DevSeek.csproj",
       "projectName": "DevSeek",
-      "projectPath": "C:\\Users\\Aras\\Desktop\\dotnet\\SOClone\\DevSeek\\DevSeek.csproj",
+      "projectPath": "C:\\Users\\Aras\\Desktop\\Java\\DevSeek-StackOverflow-Clone\\DevSeek\\DevSeek.csproj",
       "packagesPath": "C:\\Users\\Aras\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Aras\\Desktop\\dotnet\\SOClone\\DevSeek\\obj\\",
+      "outputPath": "C:\\Users\\Aras\\Desktop\\Java\\DevSeek-StackOverflow-Clone\\DevSeek\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Aras\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -4596,7 +4596,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
