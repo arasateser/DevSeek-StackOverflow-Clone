@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using DevSeek.Data;
 using DevSeek.Models;
 
 namespace DevSeek.Controllers
