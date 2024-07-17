@@ -8,6 +8,7 @@ using DevSeek.Models;
 
 namespace DevSeek.Controllers
 {
+    [Authorize]
     public class QuestionsController : Controller
     {
         // In-memory data storage

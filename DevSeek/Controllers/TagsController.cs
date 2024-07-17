@@ -11,147 +11,47 @@ namespace DevSeek.Controllers
     [Authorize]
     public class TagsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        // In-memory data storage
+        private static List<Tag> _tags = new List<Tag>();
 
-        public TagsController(ApplicationDbContext context)
+        // GET: /Tags/
+        public IActionResult Index()
         {
-            _context = context;
+            // Return the view with the list of tags
+            return View(_tags);
         }
 
-        // GET: Tags
-        // Lists all tags
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Tags.ToListAsync());
-        }
-
-        // GET: Tags/Details/5
-        // Shows the details of a specific tag
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var tag = await _context.Tags
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (tag == null)
-            {
-                return NotFound();
-            }
-
-            return View(tag);
-        }
-
-        // GET: Tags/Create
-        // Displays the create tag form
+        // GET: /Tags/Create
         public IActionResult Create()
         {
+            // Return the view for creating a new tag
             return View();
         }
 
-        // POST: Tags/Create
-        // Creates a new tag
+        // POST: /Tags/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Tag tag)
+        public IActionResult Create(Tag tag)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(tag);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(tag);
+            // Add the tag to the global list
+            _tags.Add(tag);
+
+            // Redirect to the list of tags
+            return RedirectToAction("Index");
         }
 
-        // GET: Tags/Edit/5
-        // Displays the edit form for a specific tag
-        public async Task<IActionResult> Edit(int? id)
+        // GET: /Tags/Details/{id}
+        public IActionResult Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var tag = await _context.Tags.FindAsync(id);
+            // Find the tag by its ID
+            var tag = _tags.FirstOrDefault(t => t.Id == id);
             if (tag == null)
             {
+                // Return a 404 Not Found if the tag does not exist
                 return NotFound();
             }
+
+            // Return the view with the tag details
             return View(tag);
-        }
-
-        // POST: Tags/Edit/5
-        // Edits a specific tag
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Tag tag)
-        {
-            if (id != tag.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(tag);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TagExists(tag.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(tag);
-        }
-
-        // GET: Tags/Delete/5
-        // Displays the delete confirmation page for a specific tag
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var tag = await _context.Tags
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (tag == null)
-            {
-                return NotFound();
-            }
-
-            return View(tag);
-        }
-
-        // POST: Tags/Delete/5
-        // Deletes a specific tag
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var tag = await _context.Tags.FindAsync(id);
-            _context.Tags.Remove(tag);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        // Checks if a tag exists by its ID
-        private bool TagExists(int id)
-        {
-            return _context.Tags.Any(e => e.Id == id);
         }
     }
 }

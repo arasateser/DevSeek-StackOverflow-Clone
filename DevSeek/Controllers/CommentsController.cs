@@ -11,116 +11,45 @@ namespace DevSeek.Controllers
     [Authorize]
     public class CommentsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        // In-memory data storage
+        private static List<Comment> _comments = new List<Comment>();
+        private static List<User> _users = new List<User>(); // Assuming this is the same list used in UsersController
+        private static List<Question> _questions = new List<Question>(); // Assuming this is the same list used in QuestionsController
 
-        public CommentsController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        // GET: Comments/Create
+        // GET: /Comments/Create
         public IActionResult Create(int questionId)
         {
-            ViewData["QuestionId"] = questionId;
+            // Pass the question ID to the view
+            ViewBag.QuestionId = questionId;
+
+            // Return the view for creating a new comment
             return View();
         }
 
-        // POST: Comments/Create
+        // POST: /Comments/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Body,QuestionId")] Comment comment)
+        public IActionResult Create(int questionId, Comment comment)
         {
-            if (ModelState.IsValid)
-            {
-                comment.CreatedAt = DateTime.Now;
-                comment.UserId = User.Identity.Name; //BABAYIN KEMIGI HATASI
-                _context.Add(comment);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Details", "Questions", new { id = comment.QuestionId });
-            }
-            return View(comment);
-        }
+            // Find the current logged-in user
+            var userName = HttpContext.Session.GetString("UserName");
+            var user = _users.FirstOrDefault(u => u.UserName == userName);
 
-        //GET Comments/Edit/#
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
+            // Find the question to comment on
+            var question = _questions.FirstOrDefault(q => q.Id == questionId);
+
+            if (user != null && question != null)
             {
-                return NotFound();
+                // Set the author and question for the comment, then add it to the user's, question's, and global lists
+                comment.Author = user;
+                comment.Question = question;
+                user.Comments.Add(comment);
+                question.Comments.Add(comment);
+                _comments.Add(comment);
             }
 
-            var comment = await _context.Comments.FindAsync(id);
-            if (comment == null)
-            {
-                return NotFound();
-            }
-            return View(comment);
-        }
+            // Redirect to the question details page
+            return RedirectToAction("Details", "Questions", new { id = questionId });
 
-        //POST Comments/Edit/#
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id, Body, QuestionId")] Comment comment)
-        {
-            if (id != comment.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(comment);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CommentExist(comment.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Details", "Questions", new { id = comment.QuestionId });
-            }
-            return View(comment);
-        }
-
-        //GET Comments/Delete/#
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var comment = await _context.Comments
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (comment == null)
-            {
-                return NotFound();
-            }
-
-            return View(comment);
-        }
-        //POST Comments/Delete/#
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var comment = await _context.Comments.FindAsync(id);
-            _context.Comments.Remove(comment);
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Details", "Questions", new { id = comment.QuestionId });
-        }
-
-        private bool CommentExist(int id)
-        {
-            return _context.Comments.Any(e => e.Id == id);
         }
     }
 }

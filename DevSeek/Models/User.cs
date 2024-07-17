@@ -13,6 +13,8 @@ namespace DevSeek.Models
 
         // List of comments posted by the user
         public List<Comment> Comments { get; set; } = new List<Comment>();
+        // List of votes cast by the user
+        public List<Vote> Votes { get; set; } = new List<Vote>();
     }
 
 }
