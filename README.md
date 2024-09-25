@@ -1,2 +1,3 @@
- 
- 
+Change of Plans...
+This project is on hold. I am currently working on a Store application which uses same software (dotnet 6.0, Entity Framework)
+If you came to look at my project, please look at this instead https://github.com/arasateser/Store-Application
